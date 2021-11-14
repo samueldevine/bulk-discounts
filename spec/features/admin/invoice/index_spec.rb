@@ -20,7 +20,7 @@ RSpec.describe 'the admin invoice index' do
     it 'each id links to the admin invoice show page' do
       visit '/admin/invoices'
 
-      click_on @invoice_1.id
+      click_on "#{@invoice_1.id}"
 
       expect(current_path).to eq "/admin/invoices/#{@invoice_1.id}"
     end
