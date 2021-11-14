@@ -1,10 +1,7 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-
-  # resources :merchant_dashboards, only: [:index]
-  # resources :merchant_items,      only: [:index, :new, :create, :show]
-  # resources :merchant_invoices,   only: [:index, :show]
-  get "/merchants", to: "merchants#index"
+  resources :merchants, only: [:index] do
+    resources :bulk_discounts, only: [:index]
+  end
 
   get "/merchants/:merchant_id/dashboard", to: "merchant_dashboards#index"
 
@@ -37,8 +34,4 @@ Rails.application.routes.draw do
   get '/admin/invoices', to: 'admin_invoices#index'
   get '/admin/invoices/:id', to: 'admin_invoices#show', as: :admin_invoices_show
   patch '/admin/invoices/:id', to: 'admin_invoices#update'
-  # namespace :admin do
-  #   resources :merchants, only: [:index]
-  #   resources :invoices, only: [:index]
-  # end
 end
