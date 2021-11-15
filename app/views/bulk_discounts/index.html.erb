@@ -16,4 +16,7 @@
 
 <div id='upcoming-holidays'>
 <h3>Upcoming Holidays</h3>
+<% upcoming_holidays.each do |holiday| %>
+  <%= holiday.name %> on <%= holiday.date %><br>
+<% end %>
 </div>
