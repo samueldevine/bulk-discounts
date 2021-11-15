@@ -31,21 +31,36 @@ RSpec.configure do |config|
     }', headers: {})
 
     stub_request(:get, "https://api.github.com/repos/haewonito/little-esty-shop/contributors").
-         with(
-           headers: {
-       	  'Accept'=>'*/*',
-       	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-       	  'User-Agent'=>'Faraday v1.8.0'
-           }).
-         to_return(status: 200, body: '[{
-          "login": "michab17",
-          "contributions": 22
-        },
-        {
-          "login": "samueldevine",
-          "contributions": 25
-        }
-      ]', headers: {})
+    with(
+      headers: {
+      'Accept'=>'*/*',
+      'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+      'User-Agent'=>'Faraday v1.8.0'
+      }).
+    to_return(status: 200, body: '[{
+      "login": "michab17",
+      "contributions": 22
+    },
+    {
+      "login": "samueldevine",
+      "contributions": 25
+    }
+    ]', headers: {})
+
+    stub_request(:get, "https://date.nager.at/api/v3/NextPublicHolidays/US").
+    with(
+      headers: {
+      'Accept'=>'*/*',
+      'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+      'User-Agent'=>'Faraday v1.8.0'
+      }).
+    to_return(status: 200, body: '[{
+      "date": "2021-12-25",
+      "localName": "Christmas Day",
+      "name": "Christmas Day",
+      "countryCode": "US"
+    }
+    ]', headers: {})
   end
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
