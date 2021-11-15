@@ -1,10 +1,10 @@
 class GithubService
   def repository
-    get_url("/repos/haewonito/little-esty-shop")
+    @_repository ||= get_url("/repos/haewonito/little-esty-shop")
   end
 
   def users
-    get_url("/repos/haewonito/little-esty-shop/contributors")
+    @_users ||= get_url("/repos/haewonito/little-esty-shop/contributors")
   end
 
   def get_url(url)

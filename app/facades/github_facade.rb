@@ -1,16 +1,14 @@
 class GithubFacade
   def repository
-    repository = service.repository
-    GithubRepo.new(repository)
+    GithubRepo.new(service.repository)
   end
 
   def users
-    users = service.users
-    GithubUsers.new(users)
+    GithubUserRepository.new(service.users)
   end
 
   private
   def service
-    GithubService.new
+    @_service ||= GithubService.new
   end
 end
