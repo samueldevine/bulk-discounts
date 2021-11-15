@@ -1,7 +1,10 @@
 <h1>My Bulk Discounts</h1>
 
+<div id='discounts'>
+<h3>Current Discounts</h3>
+<%= link_to 'Create a new discount', new_merchant_bulk_discount_path(@merchant) %>
 <ul>
-<% @discounts.each do |discount| %>
+<% @merchant.bulk_discounts.each do |discount| %>
   <li>
     "<%= discount.name %>":
     <%= number_to_percentage(discount.percentage, precision: 2) %>
@@ -9,3 +12,8 @@
   </li>
 <% end %>
 </ul>
+</div>
+
+<div id='upcoming-holidays'>
+<h3>Upcoming Holidays</h3>
+</div>
