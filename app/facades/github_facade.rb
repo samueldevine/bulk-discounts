@@ -1,13 +1,14 @@
 class GithubFacade
-  class << self
-    def repository
-      repository = GithubService.repository
-      GithubRepo.new(repository)
-    end
+  def repository
+    GithubRepo.new(service.repository)
+  end
 
-    def users
-      users = GithubService.users
-      GithubUsers.new(users)
-    end
+  def users
+    GithubUserRepository.new(service.users)
+  end
+
+  private
+  def service
+    @_service ||= GithubService.new
   end
 end
