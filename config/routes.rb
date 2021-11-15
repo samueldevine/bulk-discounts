@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :merchants, only: [:index] do
-    resources :bulk_discounts, only: [:index, :new, :create]
+    resources :bulk_discounts
   end
 
   get "/merchants/:merchant_id/dashboard", to: "merchant_dashboards#index"
