@@ -38,20 +38,12 @@ RSpec.configure do |config|
        	  'User-Agent'=>'Faraday v1.8.0'
            }).
          to_return(status: 200, body: '[{
-          "login": "timomitchel",
-          "contributions": 9
-        },
-        {
-          "login": "scottalexandra",
-          "contributions": 3
-        },
-        {
-          "login": "jamisonordway",
-          "contributions": 1
-        },
-        {
           "login": "michab17",
           "contributions": 22
+        },
+        {
+          "login": "samueldevine",
+          "contributions": 25
         }
       ]', headers: {})
   end

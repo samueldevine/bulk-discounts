@@ -16,14 +16,6 @@
       <%= link_to "Merchants Index", "/merchants" %> //
       <%= link_to "Admins Index", "/admin" %>
       </p>
-      <p>
-      GitHub Repository: <%= link_to GithubFacade.repository.name, "https://github.com/haewonito/little-esty-shop" %><br>
-      Github Users:<ol>
-                      <% GithubFacade.users.user_and_contributions.each do |login, contribution| %>
-                        <li><%= link_to login, "https://github.com/#{login}" %> - Commits: <%= contribution %>
-                      <% end %>
-                    <ol>
-      </p>
       <hr>
     </section>
 
@@ -32,5 +24,16 @@
     <% end %>
 
     <%= yield %>
+
+    <section>
+      <p>
+      GitHub Repository: <%= link_to repository.name, "https://github.com/haewonito/little-esty-shop" %><br>
+      Github Users:<ol>
+                      <% users.each do |user| %>
+                        <li><%= link_to user.login, "https://github.com/#{user.login}" %> - Commits: <%= user.contributions %>
+                      <% end %>
+                    <ol>
+      </p>
+    </section>
   </body>
 </html>
