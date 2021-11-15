@@ -5,11 +5,17 @@
 <%= link_to 'Create a new discount', new_merchant_bulk_discount_path(@merchant) %>
 <ul>
 <% @merchant.bulk_discounts.each do |discount| %>
+  <div id='discount-<%= discount.id %>'>
   <li>
     "<%= discount.name %>":
     <%= number_to_percentage(discount.percentage, precision: 2) %>
     off of <%= discount.quantity %> or more items
+
+    <%= form_with model: discount, url: merchant_bulk_discount_path(@merchant, discount), method: :delete, local: true do |f| %>
+      <%= f.submit 'Delete'%>
+    <% end %><br>
   </li>
+  </div>
 <% end %>
 </ul>
 </div>
