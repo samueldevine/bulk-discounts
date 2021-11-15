@@ -1,19 +1,20 @@
 class BulkDiscountsController < ApplicationController
   def index
-    @merchant = Merchant.find(params[:merchant_id])
+    @merchant = find_merchant
   end
 
   def show
+    @merchant = find_merchant
     @bulk_discount = BulkDiscount.find(params[:id])
   end
 
   def new
-    @merchant = Merchant.find(params[:merchant_id])
+    @merchant = find_merchant
     @bulk_discount = @merchant.bulk_discounts.new
   end
 
   def create
-    @merchant = Merchant.find(params[:merchant_id])
+    @merchant = find_merchant
     @bulk_discount = @merchant.bulk_discounts.create(bulk_discount_params)
 
     if @bulk_discount.save
@@ -25,8 +26,27 @@ class BulkDiscountsController < ApplicationController
     end
   end
 
+  def edit
+    @merchant = find_merchant
+    @bulk_discount = BulkDiscount.find(params[:id])
+  end
+
+  def update
+    @merchant = find_merchant
+    @bulk_discount = BulkDiscount.find(params[:id])
+    @bulk_discount.update(bulk_discount_params)
+
+    if @bulk_discount.save
+      redirect_to merchant_bulk_discount_path(@merchant, @bulk_discount)
+      flash[:notice] = "You successfully updated this discount."
+    else
+      flash[:alert] = "#{@bulk_discount.errors.full_messages}"
+      render :edit
+    end
+  end
+
   def destroy
-    @merchant = Merchant.find(params[:merchant_id])
+    @merchant = find_merchant
     bulk_discount = BulkDiscount.find(params[:id])
 
     bulk_discount.delete
@@ -36,5 +56,9 @@ class BulkDiscountsController < ApplicationController
   private
   def bulk_discount_params
     params.require(:bulk_discount).permit(:name, :percentage, :quantity)
+  end
+
+  def find_merchant
+    Merchant.find(params[:merchant_id])
   end
 end
