@@ -56,38 +56,37 @@ RSpec.describe 'Admin Index' do
   end
 
   it 'has a section for incomplete invoices' do
-    merchant1 = Merchant.create!(name: 'Bob Burger')
-    customer1 = Customer.create!(first_name: "Bob", last_name: "Dylan")
-    invoice1 = Invoice.create!(customer_id: customer1.id, status: 'in progress')
-    invoice2 = Invoice.create!(customer_id: customer1.id, status: 'completed')
-    invoice3 = Invoice.create!(customer_id: customer1.id, status: 'in progress')
-    item1 = Item.create!(name: 'book', description: 'good book', unit_price: 12, merchant_id: merchant1.id)
-    item2 = Item.create!(name: 'spatula', description: 'good spatula', unit_price: 8, merchant_id: merchant1.id)
-    item3 = Item.create!(name: 'compressed air', description: 'working gpu', unit_price: 6000, merchant_id: merchant1.id)
-    invoice_item1 = InvoiceItem.create!(item_id: item1.id, invoice_id: invoice1.id, quantity: 2, unit_price: 24, status: 'pending')
-    invoice_item2 = InvoiceItem.create!(item_id: item2.id, invoice_id: invoice2.id, quantity: 2, unit_price: 16, status: 'shipped')
-    invoice_item3 = InvoiceItem.create!(item_id: item3.id, invoice_id: invoice3.id, quantity: 2, unit_price: 12000, status: 'packaged')
-
+    merchant = Merchant.create!(name: 'Bob Burger')
+    customer = Customer.create!(first_name: "Bob", last_name: "Dylan")
+    invoice_1 = customer.invoices.create(status: 'in progress')
+    invoice_2 = customer.invoices.create(status: 'completed')
+    invoice_3 = customer.invoices.create(status: 'in progress')
+    item_1 = merchant.items.create(name: 'book', description: 'good book', unit_price: 12)
+    item_2 = merchant.items.create(name: 'spatula', description: 'good spatula', unit_price: 8)
+    item_3 = merchant.items.create(name: 'compressed air', description: 'working gpu', unit_price: 6000)
+    invoice_item_1 = invoice_1.invoice_items.create(item_id: item_1.id, quantity: 2, unit_price: 24, status: 'pending')
+    invoice_item_2 = invoice_2.invoice_items.create(item_id: item_2.id, quantity: 2, unit_price: 16, status: 'shipped')
+    invoice_item_3 = invoice_3.invoice_items.create(item_id: item_3.id, quantity: 2, unit_price: 12000, status: 'packaged')
 
     visit admin_index_path
 
-    first_invoice = "Invoice ##{invoice3.id} - #{invoice3.created_at.strftime("%A, %B %-d, %Y")}"
-    second_invoice = "Invoice ##{invoice1.id} - #{invoice1.created_at.strftime("%A, %B %-d, %Y")}"
+    first_invoice = "Invoice ##{invoice_3.id} - #{invoice_3.created_at.strftime("%A, %B %-d, %Y")}"
+    second_invoice = "Invoice ##{invoice_1.id} - #{invoice_1.created_at.strftime("%A, %B %-d, %Y")}"
 
     expect(page).to have_content('Incomplete Invoices')
 
-    within "#id-#{invoice3.id}" do
-      expect(page).to have_content("Invoice ##{invoice3.id} - #{invoice3.created_at.strftime("%A, %B %-d, %Y")}")
+    within "#id-#{invoice_3.id}" do
+      expect(page).to have_content("Invoice ##{invoice_3.id} - #{invoice_3.created_at.strftime("%A, %B %-d, %Y")}")
     end
 
-    within "#id-#{invoice1.id}" do
-      expect(page).to have_content("Invoice ##{invoice1.id} - #{invoice1.created_at.strftime("%A, %B %-d, %Y")}")
+    within "#id-#{invoice_1.id}" do
+      expect(page).to have_content("Invoice ##{invoice_1.id} - #{invoice_1.created_at.strftime("%A, %B %-d, %Y")}")
     end
 
-    expect("Invoice ##{invoice1.id}").to appear_before("Invoice ##{invoice3.id}", only_text: true)
-    
-    click_link "#{invoice3.id}"
+    expect("Invoice ##{invoice_1.id}").to appear_before("Invoice ##{invoice_3.id}", only_text: true)
 
-    expect(current_path).to eq("/admin/invoices/#{invoice3.id}")
+    click_link "#{invoice_3.id}"
+
+    expect(current_path).to eq("/admin/invoices/#{invoice_3.id}")
   end
 end
