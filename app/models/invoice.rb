@@ -18,4 +18,40 @@ class Invoice < ApplicationRecord
       .first
       .revenue
   end
+
+  def discount_revenue(merchant_id)
+    merchant = Merchant.find(merchant_id)
+    discounts = merchant.bulk_discounts
+
+    invoice_items.sum do |invoice_item|
+      final_discount = 0
+      discounts.each do |discount|
+        if invoice_item.quantity >= discount.quantity && discount.percentage > final_discount
+          final_discount = discount.percentage
+        end
+      end
+      invoice_item.quantity * (invoice_item.unit_price / 100.0) * ((100 - final_discount) / 100.0)
+    end
+  end
+
+  def applied_discounts(merchant_id, invoice_item)
+    merchant = Merchant.find(merchant_id)
+    discounts = merchant.bulk_discounts
+    applied_discount = Hash.new
+
+    invoice_items.each do |item|
+      final_discount = 0
+      discounts.each do |discount|
+        if item.quantity >= discount.quantity && discount.percentage > final_discount
+          final_discount = discount.percentage
+          applied_discount[item] = discount
+        end
+      end
+    end
+    if applied_discount[invoice_item]
+      "#{applied_discount[invoice_item].name} - #{applied_discount[invoice_item].percentage}% off"
+    else
+      "N/A"
+    end
+  end
 end
