@@ -9,10 +9,11 @@ RSpec.describe 'Admin Invoice Show page' do
     @item2 = Item.create!(name: 'Pillow', description: 'Soft', unit_price: 2000, merchant_id: @merchant.id)
     @invoice_item1 = InvoiceItem.create!(item_id: @item1.id, invoice_id: @invoice.id, quantity: 10, unit_price: 300, status: 'shipped')
     @invoice_item2 = InvoiceItem.create!(item_id: @item2.id, invoice_id: @invoice.id, quantity: 2, unit_price: 2000, status: 'shipped')
-
-    visit admin_invoices_show_path(@invoice.id)
   end
+
   it 'All the items on the invoice are shown' do
+    visit admin_invoices_show_path(@invoice.id)
+
     expect(page).to have_content('Items:')
 
     within "#item-id-#{@item1.id}" do
@@ -31,10 +32,22 @@ RSpec.describe 'Admin Invoice Show page' do
   end
 
   it 'shows the total revenue that will be generated from this invoice' do
+    visit admin_invoices_show_path(@invoice.id)
+
     expect(page).to have_content('Total revenue before discounts: $70.00')
   end
 
+  it 'shows the discounted revenue that will be generated from this invoice' do
+    @merchant.bulk_discounts.create(name: 'Black Friday', percentage: 50, quantity: 1)
+
+    visit admin_invoices_show_path(@invoice.id)
+
+    expect(page).to have_content('Total revenue after discounts: $35.00')
+  end
+
   it 'can update the invoice status with a select field' do
+    visit admin_invoices_show_path(@invoice.id)
+
     expect(page).to have_content('Status: completed')
 
     select "in progress", from: 'status'
