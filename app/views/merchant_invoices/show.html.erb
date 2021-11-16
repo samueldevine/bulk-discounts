@@ -1,8 +1,18 @@
 <h1> Invoice #<%= @invoice.id %> </h1>
 
+<p>Total Revenue: <%= number_to_currency(@invoice.total_revenue(@merchant.id)) %></p>
+<h3>Revenue after discounts: <%=  %></h3>
+
+<ul>
+  <li>Invoice Status: <%= @invoice.status %> </li>
+  <li>Created At: <%= @invoice.created_at.strftime("%A, %B %-d, %Y") %> </li>
+  <li>Customer: <%= @customer.first_name %> <%= @customer.last_name %></li>
+</ul>
+
 <% @invoice.invoice_items.each do |invoice_item| %>
-  <h3><%= Item.find(invoice_item.item_id).name %><br></h3>
-  Price: <%= Item.find(invoice_item.item_id).unit_price %><br>
+  <h3><%= invoice_item.item.name %> - <%= invoice_item.item.id %><br></h3>
+  Price: <%= number_to_currency(invoice_item.item.unit_price / 100.0) %><br>
+
   Quantity: <%= invoice_item.quantity %><br>
   <div id="id-<%=invoice_item.id%>">
     <%= form_with url: "/merchants/#{@merchant.id}/invoices/#{@invoice.id}", method: :patch, local: true do |f| %>
@@ -13,13 +23,4 @@
   </div>
 <% end %>
 
-<h3>Total Revenue: <%= number_to_currency(@invoice.total_revenue / 100.0) %></h3>
-
-<h1>This is MerchantInvoice Show Page</h1>
-
-<h3>Invoice ID: <%= @invoice.id %> </h3><br>
-<h3>Invoice Status: <%= @invoice.status %> </h3><br>
-<h3>Created At: <%= @invoice.created_at.strftime("%A, %B %-d, %Y") %> </h3><br><br>
-
-<h3>Customer: <%= @customer.first_name %> <%= @customer.last_name %></h3>
 

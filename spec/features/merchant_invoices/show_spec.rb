@@ -20,8 +20,8 @@ RSpec.describe "merchant's invoice show page", type: :feature do
     end
 
     it "I see invoice's id, status and created_at date" do
-      expect(page).to have_content("Invoice ID: #{@invoice_1.id}")
-      expect(page).to_not have_content("Invoice ID: #{@invoice_2.id}")
+      expect(page).to have_content("Invoice ##{@invoice_1.id}")
+      expect(page).to_not have_content("Invoice ##{@invoice_2.id}")
 
       expect(page).to have_content("Invoice Status: #{@invoice_1.status}")
       expect(page).to have_content("Created At: #{@invoice_1.created_at.strftime("%A, %B %-d, %Y")}")
@@ -34,12 +34,18 @@ RSpec.describe "merchant's invoice show page", type: :feature do
     it "I also see the invoice items attached to this invoice" do
       expect(page).to have_content(@item_1.name)
       expect(page).to have_content(@invoice_item_1.quantity)
-      expect(page).to have_content(@invoice_item_1.unit_price)
+      expect(page).to have_content(@invoice_item_1.unit_price / 100.0)
       expect(page).to have_content(@invoice_item_1.status)
     end
 
     it "displays total revenue for the invoice" do
       expect(page).to have_content("Total Revenue: $31.00")
+    end
+
+    it "displays total revenue after bulk discounts are applied" do
+      @merchant.bulk_discounts.create(name: '30 off of 3+', percentage: 30, quantity: 3)
+
+      expect(page).to have_content('Revenue after discounts: $22.00')
     end
 
     it "I can update the invoice item's status" do

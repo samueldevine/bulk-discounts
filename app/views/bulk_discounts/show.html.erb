@@ -1,0 +1,6 @@
+<h1><%= @bulk_discount.name %></h1>
+
+<%= number_to_percentage(@bulk_discount.percentage) %> off of orders with
+<%= @bulk_discount.quantity %> or more items.
+
+<%= link_to 'Edit this discount', edit_merchant_bulk_discount_path(@merchant, @bulk_discount) %>
