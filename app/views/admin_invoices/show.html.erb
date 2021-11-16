@@ -18,9 +18,9 @@ Created on: <%= @invoice.created_at.strftime("%A, %B %-d, %Y") %>
 </div>
 
 <h3>
-Total revenue before discounts: <%= number_to_currency(@invoice.total_revenue) %>
+Total revenue before discounts: <%= number_to_currency(@invoice.total_revenue) %><br>
 Total revenue after discounts: <%= number_to_currency(@invoice.discount_revenue) %>
-</h3>
+</h3><hr>
 
 <h3>Items:</h3>
 <% @invoice.invoice_items.each do |invoice_item| %>
