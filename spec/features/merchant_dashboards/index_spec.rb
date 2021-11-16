@@ -4,7 +4,7 @@ RSpec.describe "Merchant's dashboard", type: :feature do
   before(:each) do
     @merchant = Merchant.create(name: "Friendly Traveling Merchant")
 
-    @item = @merchant.items.create(name: 'YoYo', description: 'its on a string')
+    @item = @merchant.items.create(name: 'YoYo', description: 'its on a string', unit_price: 1500)
 
     @customer_1 = Customer.create(first_name: 'George', last_name: 'Washington')
     @customer_2 = Customer.create(first_name: 'John', last_name: 'Adams')
