@@ -5,10 +5,10 @@ RSpec.describe 'Admin Invoice Show page' do
     @customer = Customer.create!(first_name: 'Bob', last_name: 'Dylan')
     @merchant = Merchant.create!(name: 'Jen')
     @invoice = Invoice.create!(customer_id: @customer.id, status: 'completed')
-    @item1 = Item.create!(name: 'Pumpkin', description: 'Orange', unit_price: 3, merchant_id: @merchant.id)
-    @item2 = Item.create!(name: 'Pillow', description: 'Soft', unit_price: 20, merchant_id: @merchant.id)
-    @invoice_item1 = InvoiceItem.create!(item_id: @item1.id, invoice_id: @invoice.id, quantity: 10, unit_price: 30, status: 'shipped')
-    @invoice_item2 = InvoiceItem.create!(item_id: @item2.id, invoice_id: @invoice.id, quantity: 2, unit_price: 40, status: 'shipped')
+    @item1 = Item.create!(name: 'Pumpkin', description: 'Orange', unit_price: 300, merchant_id: @merchant.id)
+    @item2 = Item.create!(name: 'Pillow', description: 'Soft', unit_price: 2000, merchant_id: @merchant.id)
+    @invoice_item1 = InvoiceItem.create!(item_id: @item1.id, invoice_id: @invoice.id, quantity: 10, unit_price: 300, status: 'shipped')
+    @invoice_item2 = InvoiceItem.create!(item_id: @item2.id, invoice_id: @invoice.id, quantity: 2, unit_price: 2000, status: 'shipped')
 
     visit admin_invoices_show_path(@invoice.id)
   end
@@ -18,20 +18,20 @@ RSpec.describe 'Admin Invoice Show page' do
     within "#item-id-#{@item1.id}" do
       expect(page).to have_content('Item name: Pumpkin')
       expect(page).to have_content('Quantity of Pumpkin(s) ordered: 10')
-      expect(page).to have_content('Total price of the Pumpkin(s): 30')
+      expect(page).to have_content('Total price of the Pumpkin(s): $30.00')
       expect(page).to have_content('Status: shipped')
     end
 
     within "#item-id-#{@item2.id}" do
       expect(page).to have_content('Item name: Pillow')
       expect(page).to have_content('Quantity of Pillow(s) ordered: 2')
-      expect(page).to have_content('Total price of the Pillow(s): 40')
+      expect(page).to have_content('Total price of the Pillow(s): $40.00')
       expect(page).to have_content('Status: shipped')
     end
   end
 
   it 'shows the total revenue that will be generated from this invoice' do
-    expect(page).to have_content('Total revenue expected: 70')
+    expect(page).to have_content('Total revenue before discounts: $70.00')
   end
 
   it 'can update the invoice status with a select field' do

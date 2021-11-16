@@ -28,8 +28,8 @@ RSpec.describe Invoice, type: :model do
   describe 'instance methods' do
     describe '#total_revenue' do
       it 'returns the total revenue for a given merchant on an invoice' do
-        expect(@invoice_1.total_revenue(@merchant.id)).to eq 48
-        expect(@invoice_2.total_revenue(@merchant.id)).to eq 32
+        expect(@invoice_1.total_revenue).to eq 48
+        expect(@invoice_2.total_revenue).to eq 32
       end
     end
 
@@ -37,46 +37,46 @@ RSpec.describe Invoice, type: :model do
       it 'returns the revenue for a given merchant after valid discounts are applied' do
         @merchant.bulk_discounts.create(name: 'Black Friday', percentage: 50, quantity: 2)
 
-        expect(@invoice_1.discount_revenue(@merchant.id)).to eq 24
+        expect(@invoice_1.discount_revenue).to eq 24
       end
 
       it 'applies to all items a merchant sells' do
         @merchant.bulk_discounts.create(name: 'Black Friday', percentage: 50, quantity: 2)
 
-        expect(@invoice_1.discount_revenue(@merchant.id)).to eq 24
-        expect(@invoice_2.discount_revenue(@merchant.id)).to eq 16
+        expect(@invoice_1.discount_revenue).to eq 24
+        expect(@invoice_2.discount_revenue).to eq 16
       end
 
       it 'applies the valid discount with the greatest percentage savings' do
         @merchant.bulk_discounts.create(name: 'Black Thursday', percentage: 20, quantity: 2)
         @merchant.bulk_discounts.create(name: 'Black Friday', percentage: 50, quantity: 2)
 
-        expect(@invoice_1.discount_revenue(@merchant.id)).to eq 24
-        expect(@invoice_2.discount_revenue(@merchant.id)).to eq 16
+        expect(@invoice_1.discount_revenue).to eq 24
+        expect(@invoice_2.discount_revenue).to eq 16
       end
 
       it 'only applies to items that meet the quantity threshold' do
         @invoice_1.invoice_items.create(item_id: @item_1.id, quantity: 1, unit_price: 2400, status: 'pending')
         @merchant.bulk_discounts.create(name: 'Black Friday', percentage: 50, quantity: 2)
 
-        expect(@invoice_1.discount_revenue(@merchant.id)).to eq 48
+        expect(@invoice_1.discount_revenue).to eq 48
       end
 
       it 'item quantities cannot be added together to meet the threshold' do
         @invoice_1.invoice_items.create(item_id: @item_1.id, quantity: 1, unit_price: 2400, status: 'pending')
         @merchant.bulk_discounts.create(name: 'Black Friday', percentage: 50, quantity: 3)
 
-        expect(@invoice_1.discount_revenue(@merchant.id)).to eq 72
+        expect(@invoice_1.discount_revenue).to eq 72
       end
     end
 
     describe '#applied_discounts' do
       it 'returns a string describing the discounts applied to each invoice item' do
-        expect(@invoice_1.applied_discounts(@merchant.id, @invoice_item_1)).to eq "N/A"
+        expect(@invoice_1.applied_discounts(@invoice_item_1)).to eq "N/A"
 
         @merchant.bulk_discounts.create(name: 'Black Friday', percentage: 50, quantity: 2)
 
-        expect(@invoice_1.applied_discounts(@merchant.id, @invoice_item_1)).to eq "Black Friday - 50.0% off"
+        expect(@invoice_1.applied_discounts(@invoice_item_1)).to eq "Black Friday - 50.0% off"
       end
     end
   end

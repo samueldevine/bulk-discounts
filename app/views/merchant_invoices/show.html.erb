@@ -1,7 +1,7 @@
 <h1> Invoice #<%= @invoice.id %> </h1>
 
-<p>Total Revenue: <%= number_to_currency(@invoice.total_revenue(@merchant.id)) %><br>
-Revenue after discounts: <%= number_to_currency(@invoice.discount_revenue(@merchant.id)) %></p>
+<p>Total Revenue: <%= number_to_currency(@invoice.total_revenue) %><br>
+Revenue after discounts: <%= number_to_currency(@invoice.discount_revenue) %></p>
 
 <ul>
   <li>Invoice Status: <%= @invoice.status %> </li>
@@ -21,7 +21,7 @@ Revenue after discounts: <%= number_to_currency(@invoice.discount_revenue(@merch
       <%= f.button "Update Item Status", type: "submit", name: "invoice_item_id", value: "#{invoice_item.id}" %>
     <% end %>
   </div>
-  Applied Discounts: <%= @invoice.applied_discounts(@merchant.id, invoice_item) %>
+  Applied Discounts: <%= @invoice.applied_discounts(invoice_item) %>
 <% end %>
 
 
