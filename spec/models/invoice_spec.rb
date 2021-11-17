@@ -11,10 +11,10 @@ RSpec.describe Invoice, type: :model do
     @customer = Customer.create(first_name: "Bob", last_name: "Dylan")
     @invoice_1 = @customer.invoices.create(status: 'in progress')
     @invoice_2 = @customer.invoices.create(status: 'completed')
-    @item_1 = @merchant.items.create(name: 'book', description: 'good book', unit_price: 1200)
-    @item_2 = @merchant.items.create(name: 'spatula', description: 'good spatula', unit_price: 800)
-    @invoice_item_1 = InvoiceItem.create(item_id: @item_1.id, invoice_id: @invoice_1.id, quantity: 2, unit_price: 2400, status: 'pending')
-    @invoice_item_2 = InvoiceItem.create(item_id: @item_2.id, invoice_id: @invoice_2.id, quantity: 2, unit_price: 1600, status: 'shipped')
+    @item_1 = @merchant.items.create(name: 'book', description: 'good book', unit_price: 2400)
+    @item_2 = @merchant.items.create(name: 'spatula', description: 'good spatula', unit_price: 1600)
+    @invoice_item_1 = @invoice_1.invoice_items.create(item_id: @item_1.id, quantity: 2, unit_price: 2400, status: 'pending')
+    @invoice_item_2 = @invoice_2.invoice_items.create(item_id: @item_2.id, quantity: 2, unit_price: 1600, status: 'shipped')
   end
 
   describe 'class methods' do
@@ -30,6 +30,12 @@ RSpec.describe Invoice, type: :model do
       it 'returns the total revenue for a given merchant on an invoice' do
         expect(@invoice_1.total_revenue).to eq 48
         expect(@invoice_2.total_revenue).to eq 32
+      end
+
+      it 'returns 0 if there are no invoice items' do
+        @invoice_1.invoice_items.delete_all
+
+        expect(@invoice_1.total_revenue).to eq 0
       end
     end
 
@@ -67,6 +73,16 @@ RSpec.describe Invoice, type: :model do
         @merchant.bulk_discounts.create(name: 'Black Friday', percentage: 50, quantity: 3)
 
         expect(@invoice_1.discount_revenue).to eq 72
+      end
+
+      it 'returns 0 if there are no invoice_items' do
+        @invoice_1.invoice_items.delete_all
+
+        expect(@invoice_1.discount_revenue).to eq 0
+      end
+
+      it 'returns the total revenue if there are no discounts to check' do
+        expect(@invoice_1.discount_revenue).to eq 48
       end
     end
 

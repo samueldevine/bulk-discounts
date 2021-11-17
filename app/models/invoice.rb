@@ -23,25 +23,24 @@ class Invoice < ApplicationRecord
   end
 
   def discount_revenue
-    if invoice_items.empty?
-      0
-    else
-      discounts = Merchant.find(Item.find(invoice_items.first.item_id).merchant_id).bulk_discounts
+  # our current data implies that each invoice can only have 1 merchant
+  # if this ever changes, this method will need to be refactored accordingly
 
-      invoice_items.sum do |invoice_item|
-        final_discount = 0
-        discounts.each do |discount|
-          if invoice_item.quantity >= discount.quantity && discount.percentage >
-            final_discount
-            final_discount = discount.percentage
-          end
-        end
-        invoice_item.quantity * (invoice_item.unit_price / 100.0) * ((100 - final_discount) / 100.0)
+    invoice_items.sum do |invoice_item|
+      merchant = Merchant.find(Item.find(invoice_item.item_id).merchant_id)
+      discounts = merchant.bulk_discounts
+      if discounts.empty?
+        total_revenue
+      else
+        invoice_item.sql_discount_information(merchant.id).rev
       end
     end
   end
 
   def applied_discounts(invoice_item)
+  # our current data implies that each invoice can only have 1 merchant
+  # if this ever changes, this method will need to be refactored accordingly
+
     discounts = Merchant.find(Item.find(invoice_item.item_id).merchant_id).bulk_discounts
     applied_discount = Hash.new
 
