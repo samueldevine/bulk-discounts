@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     resources :bulk_discounts
   end
 
+  get "/", to: "welcome#index"
+
   get "/merchants/:merchant_id/dashboard", to: "merchant_dashboards#index"
 
   get "/merchants/:merchant_id/items", to: "merchant_items#index"

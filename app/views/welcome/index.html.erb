@@ -1,0 +1,28 @@
+<h1>Welcome to Bulk Discounts, my final solo project in Mod 2!</h1>
+
+<p>
+This project is an extension of Little Esty Shop that allows merchants to create bulk discounts that apply to their
+items.
+</p>
+
+<p>Bulk Discounts have a name, a percentage from 0 to 100, and a quantity threshold. Merchants can create, read, update,
+and delete their own discounts as they see fit. Discounts obey the following rules:
+<ul>
+<li>They belong to a single merchant and do not affect items sold by other merchants.</li>
+<li>Once created, they will automatically be applied to invoice items that have a sufficiently high quantity.</li>
+<li>The valid discount with the highest percentage will always be applied, even if other valid discounts exist.</li>
+<li>Discounts are applied on a per-item basis, meaning they can be applied to individual items that meet certain
+quantity thresholds, without being applied to other items on the same invoice. Indivdual items must meet the quantity
+threshold alone; the quantities of different items cannot be added together to qualify for a discount. </li>
+</ul>
+</p>
+
+<p>
+Each Merchant's invoice show pages display the total revenue that an invoice would produce before and after valid
+discounts are applied. The same is true for the Admin invoice show pages.
+</p>
+
+<p>
+This extension also includes an API call to <%= link_to 'Nager.Date', 'https://date.nager.at/Api' %> on each merchant's
+bulk discounts index page that displays the next three upcoming public holidays in the US.
+</p>
