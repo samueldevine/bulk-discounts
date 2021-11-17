@@ -30,7 +30,7 @@ class Invoice < ApplicationRecord
       merchant = Merchant.find(Item.find(invoice_item.item_id).merchant_id)
       discounts = merchant.bulk_discounts
       if discounts.empty?
-        total_revenue
+        invoice_item.revenue
       else
         invoice_item.sql_discount_information(merchant.id).rev
       end
