@@ -31,6 +31,12 @@ RSpec.describe Invoice, type: :model do
         expect(@invoice_1.total_revenue).to eq 48
         expect(@invoice_2.total_revenue).to eq 32
       end
+
+      it 'returns 0 if there are no invoice items' do
+        @invoice_1.invoice_items.delete_all
+
+        expect(@invoice_1.total_revenue).to eq 0
+      end
     end
 
     describe '#discount_revenue' do
@@ -67,6 +73,12 @@ RSpec.describe Invoice, type: :model do
         @merchant.bulk_discounts.create(name: 'Black Friday', percentage: 50, quantity: 3)
 
         expect(@invoice_1.discount_revenue).to eq 72
+      end
+
+      it 'returns 0 if there are no invoice_items' do
+        @invoice_1.invoice_items.delete_all
+
+        expect(@invoice_1.discount_revenue).to eq 0
       end
     end
 
