@@ -30,13 +30,13 @@
     <h4>GitHub</h4>
       <p>
       GitHub Repository:
-      <%# <%= link_to repository.name, "https://github.com/haewonito/#{repository.name}" %><br> %>
+      <%= link_to repository.name, "https://github.com/haewonito/#{repository.name}" %><br>
       Github Users:
       <ol>
-      <%# <% users.each do |user| %> %>
-        <%# <li><%= link_to user.login, "https://github.com/#{user.login}" %> -
-        <%# <%= user.contributions %> commits</li> %> %>
-      <%# <% end %> %>
+      <% users.each do |user| %>
+        <li><%= link_to user.login, "https://github.com/#{user.login}" %> -
+        <%= user.contributions %> commits</li> %>
+      <% end %>
       <ol>
       </p>
     </section>
