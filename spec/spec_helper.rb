@@ -19,7 +19,7 @@ WebMock.disable_net_connect!(allow_localhost: true)
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.before(:each) do
-    stub_request(:get, "https://api.github.com/repos/haewonito/little-esty-shop").
+    stub_request(:get, "https://api.github.com/repos/samueldevine/bulk-discounts").
     with(
       headers: {
       'Accept'=>'*/*',
@@ -27,10 +27,10 @@ RSpec.configure do |config|
       'User-Agent'=>'Faraday v1.8.0'
       }).
     to_return(status: 200, body: '{
-      "name": "little-esty-shop"
+      "name": "bulk-discounts"
     }', headers: {})
 
-    stub_request(:get, "https://api.github.com/repos/haewonito/little-esty-shop/contributors").
+    stub_request(:get, "https://api.github.com/repos/samueldevine/bulk-discounts/contributors").
     with(
       headers: {
       'Accept'=>'*/*',
