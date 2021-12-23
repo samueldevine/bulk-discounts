@@ -1,8 +1,17 @@
-<h1>Welcome to Bulk Discounts, my final solo project in Mod 2!</h1>
+<header class="bg-dark py-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="text-center text-white">
+      <h1 class="display-4 fw-bolder">Little Esty Shop</h1>
+      <p class="lead fw-normal text-white-50 mb-0">A ficticious e-commerce platform</p>
+    </div>
+  </div>
+</header>
+
+<h2>Welcome to Bulk Discounts!</h2>
 
 <p>
-This project is an extension of Little Esty Shop that allows merchants to create bulk discounts that apply to their
-items.
+This project is an extension of Little Esty Shop; a ficticious e-commerce platform that allows merchants to create bulk
+discounts that apply to their items.
 </p>
 
 <p>Bulk Discounts have a name, a percentage from 0 to 100, and a quantity threshold. Merchants can create, read, update,
@@ -22,7 +31,9 @@ Each Merchant's invoice show pages display the total revenue that an invoice wou
 discounts are applied. The same is true for the Admin invoice show pages.
 </p>
 
-<p>
-This extension also includes an API call to <%= link_to 'Nager.Date', 'https://date.nager.at/Api' %> on each merchant's
-bulk discounts index page that displays the next three upcoming public holidays in the US.
-</p>
+<h4>Other Updates</h4>
+<ul>
+  <li>Removed API call to GitHub due to rate limiting</li>
+  <li>Added an API call to <%= link_to 'Nager.Date', 'https://date.nager.at/Api' %> on each merchant's bulk discounts index page that displays the next three upcoming public holidays in the US.</li>
+  <li>Added styling!</li>
+</ul>

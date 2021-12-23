@@ -5,40 +5,44 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%= stylesheet_link_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
+
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <section>
-      <h1>Little Esty Shop</h1>
-      <p>
-      <%= link_to "Merchants Index", "/merchants" %> //
-      <%= link_to "Admins Index", "/admin" %>
-      </p>
-      <hr>
-    </section>
+    <container>
+      <%= render 'layouts/navbar' %>
+    </container>
 
     <% flash.each do |type, message| %>
       <p><%= message %></p>
     <% end %>
 
     <%= yield %>
-
-    <hr>
-    <section>
-    <h4>GitHub</h4>
-      <p>
-      GitHub Repository:
-      <%= link_to repository.name, "https://github.com/samueldevine/#{repository.name}" %><br>
-      Github Users:
-      <ol>
-      <% users.each do |user| %>
-        <li><%= link_to user.login, "https://github.com/#{user.login}" %> -
-        <%= user.contributions %> commits</li>
-      <% end %>
-      <ol>
-      </p>
-    </section>
   </body>
+
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6 m-0 text-start text-white">
+          Original Project Contributors:
+          <ul>
+            <li><%= link_to 'Sam Devine', 'https://github.com/samueldevine' %></li>
+            <li><%= link_to 'Christian Valesares', 'https://github.com/cvalesares' %></li>
+            <li><%= link_to 'Haewon Jeon', 'https://github.com/haewonito' %></li>
+            <li><%= link_to 'Micha Bernhard', 'https://github.com/michab17' %></li>
+          </ul>
+        </div>
+        <div class="col-md-6 m-0 text-start text-white">
+          GitHub Repository:<br>
+          <!-- <%= link_to repository.name, "https://github.com/samueldevine/#{repository.name}" %> -->
+          <%= link_to 'Bulk Discounts', 'https://github.com/samueldevine/bulk-discounts' %><br><br>
+          Bulk Discounts and Styling:<br>
+          <%= link_to 'Sam Devine', 'https://github.com/samueldevine' %>
+        </div>
+      </div>
+    </div>
+  </footer>
 </html>
