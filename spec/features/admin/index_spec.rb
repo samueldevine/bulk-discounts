@@ -10,7 +10,7 @@ RSpec.describe 'Admin Index' do
   it 'has a link to the admin merchants page' do
     visit admin_index_path
 
-    click_link "Merchants"
+    click_link "Admin merchants"
 
     expect(current_path).to eq('/admin/merchants')
   end
@@ -18,7 +18,7 @@ RSpec.describe 'Admin Index' do
   it 'has a link to the admin invoices page' do
     visit admin_index_path
 
-    click_link "Invoices"
+    click_link "Admin invoices"
 
     expect(current_path).to eq('/admin/invoices')
   end
